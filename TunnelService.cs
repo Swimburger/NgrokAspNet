@@ -41,7 +41,7 @@ public class TunnelService : BackgroundService
         var ngrokTask = StartNgrokTunnel(localUrl, stoppingToken);
 
         var publicUrl = await GetNgrokPublicUrl();
-        logger.LogInformation("Public ngrok HTTPS URL: {NgrokPublicUrl}", publicUrl);
+        logger.LogInformation("Public ngrok URL: {NgrokPublicUrl}", publicUrl);
 
         await ConfigureTwilioWebhook(publicUrl);
 
@@ -52,7 +52,7 @@ public class TunnelService : BackgroundService
 
     private Task WaitForApplicationStarted()
     {
-        var completionSource = new TaskCompletionSource();
+        var completionSource = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         hostApplicationLifetime.ApplicationStarted.Register(() => completionSource.TrySetResult());
         return completionSource.Task;
     }
@@ -76,7 +76,7 @@ public class TunnelService : BackgroundService
         using var httpClient = new HttpClient();
         for (var ngrokRetryCount = 0; ngrokRetryCount < 10; ngrokRetryCount++)
         {
-            logger.LogDebug("Ngrok try: {RetryCount}", ngrokRetryCount + 1);
+            logger.LogDebug("Get ngrok tunnels attempt: {RetryCount}", ngrokRetryCount + 1);
 
             try
             {

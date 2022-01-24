@@ -2,7 +2,8 @@ using NgrokAspNet;
 using Twilio.TwiML;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsDevelopment()) builder.Services.AddHostedService<TunnelService>();
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddHostedService<TunnelService>();
 
 var app = builder.Build();
 

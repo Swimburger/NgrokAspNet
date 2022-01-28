@@ -12,13 +12,13 @@ app.MapPost("/voice", () =>
 {
     var response = new VoiceResponse();
     response.Say("Hello World!");
-    return Results.Text(response.ToString(), "text/xml");
+    return Results.Text(response.ToString(), "application/xml");
 });
 app.MapPost("/message", () =>
 {
     var response = new MessagingResponse();
     response.Message("Hello World!");
-    return Results.Text(response.ToString(), "text/xml");
+    return Results.Text(response.ToString(), "application/xml");
 });
 
 app.Run();
